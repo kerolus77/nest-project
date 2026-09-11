@@ -11,6 +11,7 @@ import { UsersModule } from './users/users.module.js';
 import { ReviewsModule } from './reviews/reviews.module.js';
 import { UserEntity } from './users/user.entity.js';
 import { Review } from './reviews/review.entity.js';
+import { AuthModule } from './auth/auth.module.js';
 
 
 @Module({
@@ -41,7 +42,8 @@ import { Review } from './reviews/review.entity.js';
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
     ProductsModule,
-    ReviewsModule
+    ReviewsModule,
+    AuthModule
   ],
 })
 

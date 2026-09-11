@@ -4,7 +4,7 @@ import type { Review } from "../reviews/review.entity.js";
 import { CURRENT_TIMESTAMP } from "../uitils/constant.js";
 
 
-enum UserType {
+export enum UserType {
     ADMIN = 'admin',
     NORMAL_USER = 'normal_user'
 }
