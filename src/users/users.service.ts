@@ -1,39 +1,35 @@
 import { Injectable } from "@nestjs/common";
-import { UserEntity } from "./user.entity.js";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 import { CreateUserDto } from "./dtos/create-user.dto.js";
 import { UpdateUserDto } from "./dtos/update-user.dto.js";
-import {v4 as uuid} from 'uuid';
+import { UserEntity } from "./user.entity.js";
 
 @Injectable()
 export class UsersService {
-  private users: UserEntity[] = [];
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>
+  ) {}
 
-  getAllUsers(): UserEntity[] {
-    return this.users;
+  getAllUsers() {
+    return this.userRepository.find();
   }
-  getUserById(id: string)  {
-     return this.users.find(user=>user.id ===id);
+
+  getUserById(id: string) {
+    return this.userRepository.findOneBy({ id });
   }
-  createUser(userData: CreateUserDto): UserEntity {
-      const newUser:UserEntity={
-                id: uuid(),
-                ...userData,
-                
-            }
-            this.users.push(newUser);
-            return newUser;
+
+  createUser(userData: CreateUserDto) {
+    const user = this.userRepository.create(userData);
+    return this.userRepository.save(user);
   }
+
   updateUser(id: string, updateData: UpdateUserDto) {
-     const userIndex = this.users.findIndex(user => user.id === id);
-            if (userIndex === -1) {
-                return `User with ID: ${id} not found`;
-            }
-    
-            this.users[userIndex] = { ...this.users[userIndex], ...updateData };
-            return this.users[userIndex];
+    return this.userRepository.update(id, updateData);
   }
-  deleteUser(id: string): void {
-           this.users = this.users.filter(user => user.id !== id);
 
+  deleteUser(id: string) {
+    return this.userRepository.delete(id);
   }
 }

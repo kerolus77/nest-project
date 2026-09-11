@@ -8,6 +8,9 @@ import { EnginModule } from './engin/engin.module.js';
 import { Product } from './products/product.entity.js';
 import { ProductsModule } from './products/products.module.js';
 import { UsersModule } from './users/users.module.js';
+import { ReviewsModule } from './reviews/reviews.module.js';
+import { UserEntity } from './users/user.entity.js';
+import { Review } from './reviews/review.entity.js';
 
 
 @Module({
@@ -27,6 +30,8 @@ import { UsersModule } from './users/users.module.js';
       synchronize:true,
       entities:[
         Product,
+        UserEntity,
+        Review
       ],
     })
       }
@@ -35,7 +40,8 @@ import { UsersModule } from './users/users.module.js';
         isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
-    ProductsModule
+    ProductsModule,
+    ReviewsModule
   ],
 })
 
