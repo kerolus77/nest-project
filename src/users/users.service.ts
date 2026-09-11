@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { UserEntity } from "./user.entity.js";
-import { CreateUserDto } from "./dtos/create-user.dto.js";
+import { UserType } from '../uitils/enums.js';
+import type { JwtPayload } from '../uitils/types.js';
 import { UpdateUserDto } from "./dtos/update-user.dto.js";
+import { UserEntity } from "./user.entity.js";
 
 @Injectable()
 export class UsersService {
@@ -20,16 +21,23 @@ export class UsersService {
     return this.userRepository.findOneBy({ id });
   }
 
-  createUser(userData: CreateUserDto) {
-    const user = this.userRepository.create(userData);
-    return this.userRepository.save(user);
-  }
+  // createUser(userData: CreateUserDto) {
+  //   const user = this.userRepository.create(userData);
+  //   return this.userRepository.save(user);
+  // }
 
   updateUser(id: string, updateData: UpdateUserDto) {
     return this.userRepository.update(id, updateData);
   }
 
-  deleteUser(id: string) {
-    return this.userRepository.delete(id);
+ async deleteUser(id: string,jwtPayload:JwtPayload) {
+    const user =await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    if (user.id === jwtPayload.id||UserType.ADMIN === jwtPayload.userType) {
+      return this.userRepository.delete(id);
+    }
+    throw new Error('Unauthorized');
   }
 }

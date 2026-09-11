@@ -2,12 +2,10 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Up
 import type { Product } from "../products/product.entity.js";
 import type { Review } from "../reviews/review.entity.js";
 import { CURRENT_TIMESTAMP } from "../uitils/constant.js";
+import { UserType } from "../uitils/enums.js";
+import {Exclude} from "class-transformer";
 
 
-export enum UserType {
-    ADMIN = 'admin',
-    NORMAL_USER = 'normal_user'
-}
 @Entity('users')
 export class UserEntity {
     @PrimaryGeneratedColumn('uuid')
@@ -17,6 +15,7 @@ export class UserEntity {
     @Column({ type: 'varchar', length: '150', unique: true})
     email: string;
     @Column()
+    @Exclude()
     password: string;
     @Column({ type: 'enum', enum: UserType, default: UserType.NORMAL_USER })
     userType: UserType;

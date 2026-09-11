@@ -1,14 +1,20 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
-import { CreateUserDto } from './dtos/create-user.dto.js';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, UseGuards } from '@nestjs/common';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
-import { CustomValidationPipe } from './pipes/custom-validation.pipe.js';
 import { UsersService } from './users.service.js';
+import { Roles } from '../auth/decorators/user_role.decorator.js';
+import { UserType } from '../uitils/enums.js';
+import { AuthRoleGuard } from '../auth/auth_role.guard.js';
+import { CurrentUser } from '../auth/decorators/current_user.decorator.js';
+import type { JwtPayload } from '../uitils/types.js';
+
 @Controller('users')
 export class UsersController {
 
     constructor(private readonly usersService: UsersService) {}
     @Get()
-    find(@Query('name',CustomValidationPipe) name?: string) {
+    @Roles(UserType.ADMIN)
+    @UseGuards(AuthRoleGuard)
+    find() {
         return this.usersService.getAllUsers();
     }
 
@@ -17,12 +23,7 @@ export class UsersController {
         return this.usersService.getUserById(id);
     }
 
-    @Post()
-    create(@Body() userData: CreateUserDto) {
-      return this.usersService.createUser(userData);
-    }
-        
-     
+
 
     @Patch(':id')
     update(@Param('id',ParseUUIDPipe) id: string,@Body() updateData: UpdateUserDto) {
@@ -31,7 +32,7 @@ export class UsersController {
 
     @Delete(':id')
     @HttpCode(HttpStatus.NO_CONTENT)
-    remove(@Param('id',ParseUUIDPipe) id: string) {
-        this.usersService.deleteUser(id);
+    remove(@Param('id',ParseUUIDPipe) id: string,@CurrentUser() jwtPayload: JwtPayload) {
+        this.usersService.deleteUser(id, jwtPayload);
           }
 }

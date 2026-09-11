@@ -1,4 +1,5 @@
-import { UserEntity, UserType } from '../../users/user.entity.js';
+import { UserType } from '../../uitils/enums.js';
+import { UserEntity } from '../../users/user.entity.js';
 
 export class AuthResponseDto {
     id: string;

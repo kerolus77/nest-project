@@ -5,7 +5,7 @@ import { Repository } from 'typeorm/repository/Repository.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { LoginDto } from './dtos/login.dto.js';
-import { jwtPayload } from '../uitils/tayps.js';
+import type { JwtPayload } from '../uitils/types.js';
 import { JwtService } from '@nestjs/jwt';
 import { AuthResponseDto } from './dtos/auth-response.dto.js';
 
@@ -32,7 +32,7 @@ export class AuthService {
           id: savedUser.id,
           userType: savedUser.userType,
         });
-        return new AuthResponseDto(user, token);
+        return { user: savedUser, token };
       }
 
 
@@ -52,11 +52,17 @@ export class AuthService {
           id: user.id,
           userType: user.userType,
         });
-        return new AuthResponseDto(user, token);
+        return { user, token };
       }
 
-     
-      private async generateToken(payload: jwtPayload) {
+     getProfile(id: string) {
+        return this.userRepository.findOne({ where: { id } });
+      
+     }
+      private async generateToken(payload: JwtPayload) {
 return this.jwtService.sign(payload);
       }
+
+
+      
 }
