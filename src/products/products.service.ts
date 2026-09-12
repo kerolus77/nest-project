@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Product } from './product.entity.js';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Between, Like, Repository } from 'typeorm';
 import { CreateProductDto } from './dtos/create_product.dto.js';
 import { UpdateProductDto } from './dtos/update_product.dto.js';
+import { Product } from './product.entity.js';
 
 @Injectable()
 export class ProductsService {
@@ -22,8 +22,13 @@ export class ProductsService {
         return this.productRepository.save(product);
     }
 
-    getAllProducts() {
-        return this.productRepository.find();
+    getAllProducts(name?: string,minPrice?: number,maxPrice?: number) {
+
+        const filter={
+            ...name? {name:Like(`%${name}%`)}:{},
+            ...minPrice&&maxPrice? {price:Between(minPrice, maxPrice)}:{},
+        }
+        return this.productRepository.find({where:  filter });
     }
 
     getProductById(id: number) {

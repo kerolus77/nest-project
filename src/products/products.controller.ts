@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthRoleGuard } from '../auth/auth_role.guard.js';
 import { CurrentUser } from '../auth/decorators/current_user.decorator.js';
 import { Roles } from '../auth/decorators/user_role.decorator.js';
@@ -13,8 +13,8 @@ export class ProductsController {
     constructor(private readonly productsService: ProductsService) {}
 
     @Get()
-    getProducts() {
-        return this.productsService.getAllProducts();
+    getProducts(@Query('name') name?: string, @Query('minPrice') minPrice?: number, @Query('maxPrice') maxPrice?: number) {
+        return this.productsService.getAllProducts(name, minPrice, maxPrice);
     }
 
     @Get(':id')
