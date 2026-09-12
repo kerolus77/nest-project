@@ -13,6 +13,7 @@ import { UserEntity } from './users/user.entity.js';
 import { Review } from './reviews/review.entity.js';
 import { AuthModule } from './auth/auth.module.js';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggerInterceptor } from './auth/interceptor/logger.interceptor.js';
 
 
 @Module({
@@ -50,7 +51,12 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     {
       provide:APP_INTERCEPTOR,
       useClass:ClassSerializerInterceptor
-    }
+      
+    },
+    {
+    provide: APP_INTERCEPTOR,
+    useClass: LoggerInterceptor,
+  },
   ]
 })
 
