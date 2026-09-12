@@ -13,8 +13,12 @@ export class ProductsService {
     ) {}
 
 
-    createProduct(dto:CreateProductDto) {
-        const product = this.productRepository.create(dto);
+
+    createProduct(dto:CreateProductDto, userId: string) {
+
+       
+
+        const product = this.productRepository.create({ ...dto, user:{id:userId} });
         return this.productRepository.save(product);
     }
 

@@ -5,7 +5,7 @@ import { AuthService } from './auth.service.js';
 import { CurrentUser } from './decorators/current_user.decorator.js';
 import { RegisterDto } from './dtos/register.dto.js';
 
-@Controller('api/auth')
+@Controller('api/users/auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 

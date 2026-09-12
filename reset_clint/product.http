@@ -7,16 +7,16 @@ GET http://localhost:3000/api/products/6
 ### Create New Product
 POST http://localhost:3000/api/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlclR5cGUiOiJhZG1pbiIsImlhdCI6MTczNTAxODg1NSwiZXhwIjoxNzM1MTA1MjU1fQ.vS6izgQ3Hp9tYHjgi9PM_WQg-Eh5juQ4_S1szmVsSKM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY0MmY5YTRjLWQ4ZTUtNDA0OS1hMzRkLTFmOWMzNDVlMWMwZCIsInVzZXJUeXBlIjoiYWRtaW4iLCJpYXQiOjE3ODkyNTQ0ODEsImV4cCI6MTc5NDQzODQ4MX0.9Mn-vFvIpkmwrFgvGwrlHvQ92cFeZ7g0xjIG0FZus-I
 
 {
-    "name": "product 1",
-    "description":"about programmin",
-    "price": 16
+    "name": "product 2",
+    "description":" this is product 2",
+    "price": 120
 }
 
 ### Update Product
-PUT http://localhost:3000/api/products/3
+PATCH  http://localhost:3000/api/products/3
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlclR5cGUiOiJub3JtYWxfdXNlciIsImlhdCI6MTcyNjU3MjkyOCwiZXhwIjoxNzI2NjU5MzI4fQ.mxP3BPsj88tgDITbF33EKQAH3gGLZCrOqyD-XrvZSdY
 
@@ -25,5 +25,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlclR5c
 }
 
 ### Delete Product
-DELETE  http://localhost:3000/api/products/1
+DELETE  http://localhost:3000/api/products/2
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlclR5cGUiOiJhZG1pbiIsImlhdCI6MTcyNzE3OTgwMywiZXhwIjoxNzI3MjY2MjAzfQ.nB5sab2JC8OXJ3_mDzw3hfYSk7PBaHmj6kz1q6GdZLw

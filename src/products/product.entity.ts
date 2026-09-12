@@ -18,8 +18,8 @@ export class Product {
     createdAt: Date;
     @UpdateDateColumn({type: 'timestamp', default: () => CURRENT_TIMESTAMP, onUpdate:  CURRENT_TIMESTAMP})
     updatedAt: Date;
-    @OneToMany('Review', (review: Review) => review.product)
+    @OneToMany('Review', (review: Review) => review.product,{eager:true})
     reviews: Review[];
-    @ManyToOne('UserEntity', (user: UserEntity) => user.products)
+    @ManyToOne('UserEntity', (user: UserEntity) => user.products,{eager:true})
     user: UserEntity;
 }

@@ -18,4 +18,6 @@ export class CreateProductDto  {
     @Min(0, { message: 'price should not be less than zero' })
     @ApiProperty({ description: 'price of the product' })
     price: number;
+
+    
 }

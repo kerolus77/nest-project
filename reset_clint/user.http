@@ -1,0 +1,30 @@
+### Register
+POST http://localhost:3000/api/users/auth/register
+Content-Type: application/json 
+
+{
+   "email": "admin@email.com",
+   "userName": "kero",
+   "password": "123456",
+   "userType": "admin"
+}
+
+### Login
+POST http://localhost:3000/api/users/auth/login
+Content-Type: application/json 
+
+{
+   "email": "kero@email.com",
+   "password": "123456"
+}
+
+### Get Current User
+GET http://localhost:3000/api/users/current-user 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY0MmY5YTRjLWQ4ZTUtNDA0OS1hMzRkLTFmOWMzNDVlMWMwZCIsInVzZXJUeXBlIjoiYWRtaW4iLCJpYXQiOjE3ODkyNTQ0ODEsImV4cCI6MTc5NDQzODQ4MX0.9Mn-vFvIpkmwrFgvGwrlHvQ92cFeZ7g0xjIG0FZus-I
+
+### Get All Users
+GET http://localhost:3000/api/users
+
+### DELETE User
+DELETE http://localhost:3000/api/users/6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY0MmY5YTRjLWQ4ZTUtNDA0OS1hMzRkLTFmOWMzNDVlMWMwZCIsInVzZXJUeXBlIjoiYWRtaW4iLCJpYXQiOjE3ODkyNTQ0ODEsImV4cCI6MTc5NDQzODQ4MX0.9Mn-vFvIpkmwrFgvGwrlHvQ92cFeZ7g0xjIG0FZus-I
