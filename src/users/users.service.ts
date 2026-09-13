@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { UserType } from '../uitils/enums.js';
@@ -17,8 +17,12 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  getUserById(id: string) {
-    return this.userRepository.findOneBy({ id });
+  async getUserById(id: string) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 
   // createUser(userData: CreateUserDto) {

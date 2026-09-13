@@ -14,4 +14,5 @@ export class CreateReviewDto {
     @Max(5)
     @ApiProperty({ description: 'rating of the review' })
     rating: number;
+
 }

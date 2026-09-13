@@ -15,9 +15,9 @@ rating: number;
 createdAt: Date;
 @UpdateDateColumn({type: 'timestamp', default: () => CURRENT_TIMESTAMP, onUpdate:  CURRENT_TIMESTAMP})
 updatedAt: Date;
-@ManyToOne('Product', (product: Product) => product.reviews)
+@ManyToOne('Product', (product: Product) => product.reviews,{onDelete:'CASCADE'})
 product: Product;
-@ManyToOne('UserEntity', (user: UserEntity) => user.reviews)
+@ManyToOne('UserEntity', (user: UserEntity) => user.reviews,{eager:true,onDelete:'CASCADE'})
 user: UserEntity;
 
 }

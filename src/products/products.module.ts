@@ -11,6 +11,7 @@ import { Product } from './product.entity.js';
     
 
   controllers: [ProductsController],
+  exports:[ProductsService],
   imports: [
     TypeOrmModule.forFeature([
         Product
