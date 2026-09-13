@@ -32,6 +32,7 @@ export class ProductsController {
     @Roles(UserType.ADMIN)
     @UseGuards (AuthRoleGuard)
     createProduct(@Body() productData: CreateProductDto,@CurrentUser() jwtPayload:JwtPayload) {
+        
         return this.productsService.createProduct(productData, jwtPayload.id);
     }
    @Patch(':id')

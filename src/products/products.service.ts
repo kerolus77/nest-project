@@ -4,21 +4,23 @@ import { Between, Like, Repository } from 'typeorm';
 import { CreateProductDto } from './dtos/create_product.dto.js';
 import { UpdateProductDto } from './dtos/update_product.dto.js';
 import { Product } from './product.entity.js';
+import { UsersService } from '../users/users.service.js';
 
 @Injectable()
 export class ProductsService {
     constructor(
         @InjectRepository(Product)
-        private readonly productRepository: Repository<Product>
+        private readonly productRepository: Repository<Product>,
+        private readonly usersService: UsersService
     ) {}
 
 
 
-    createProduct(dto:CreateProductDto, userId: string) {
+   async createProduct(dto:CreateProductDto, userId: string) {
 
-       
+       const user=await this.usersService.getUserById(userId);
 
-        const product = this.productRepository.create({ ...dto, user:{id:userId} });
+        const product = this.productRepository.create({ ...dto, user:{id:user.id} });
         return this.productRepository.save(product);
     }
 
