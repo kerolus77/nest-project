@@ -19,6 +19,8 @@ export class UserEntity {
     password: string;
     @Column({ type: 'enum', enum: UserType, default: UserType.NORMAL_USER })
     userType: UserType;
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    imageUrl: string | null;
     @Column({default:false})
     isAccountVerified: boolean;
     

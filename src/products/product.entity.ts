@@ -14,6 +14,8 @@ export class Product {
     price: number;
     @Column()
     description: string;
+    @Column({ type: 'text', array: true, default: '{}' })
+    imageUrls: string[];
     @CreateDateColumn({type: 'timestamp', default: () => CURRENT_TIMESTAMP})
     createdAt: Date;
     @UpdateDateColumn({type: 'timestamp', default: () => CURRENT_TIMESTAMP, onUpdate:  CURRENT_TIMESTAMP})
