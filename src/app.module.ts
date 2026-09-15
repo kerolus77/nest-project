@@ -1,4 +1,4 @@
-import { ClassSerializerInterceptor, Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BatteryModule } from './battery/battery.module.js';
@@ -14,6 +14,7 @@ import { Review } from './reviews/review.entity.js';
 import { AuthModule } from './auth/auth.module.js';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggerInterceptor } from './auth/interceptor/logger.interceptor.js';
+import { MailModule } from './mail/mail.module.js';
 
 
 @Module({
@@ -45,7 +46,8 @@ import { LoggerInterceptor } from './auth/interceptor/logger.interceptor.js';
     }),
     ProductsModule,
     ReviewsModule,
-    AuthModule
+    AuthModule,
+    MailModule
   ],
   providers:[
     {
@@ -60,4 +62,9 @@ import { LoggerInterceptor } from './auth/interceptor/logger.interceptor.js';
   ]
 })
 
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerInterceptor).forRoutes('*');
+  }
+
+}

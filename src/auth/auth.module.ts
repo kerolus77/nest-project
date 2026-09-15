@@ -6,11 +6,12 @@ import { AuthController } from './auth.controller.js';
 import { AuthService } from './auth.service.js';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { MailModule } from '../mail/mail.module.js';
 
 @Module({
   providers: [AuthService],
   controllers: [AuthController],
-  imports: [UsersModule,TypeOrmModule.forFeature([UserEntity]),
+  imports: [UsersModule,MailModule,TypeOrmModule.forFeature([UserEntity]),
  JwtModule.registerAsync({
   global: true,
   inject: [ConfigService],
