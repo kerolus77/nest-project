@@ -9,6 +9,8 @@ import { AuthRoleGuard } from '../auth/auth_role.guard.js';
 import { CurrentUser } from '../auth/decorators/current_user.decorator.js';
 import type { JwtPayload } from '../uitils/types.js';
 import { AuthGuard } from '../auth/auth.guard.js';
+import { ApiBody, ApiConsumes, ApiSecurity } from '@nestjs/swagger';
+import { ImageUploadDto } from './dtos/imageUpload.dto.js';
 
 @Controller('users')
 export class UsersController {
@@ -17,6 +19,7 @@ export class UsersController {
     @Get()
     @Roles(UserType.ADMIN)
     @UseGuards(AuthRoleGuard)
+    @ApiSecurity('bearer')
     find() {
         return this.usersService.getAllUsers();
     }
@@ -30,10 +33,13 @@ export class UsersController {
 
     @Patch(':id')
     @UseGuards(AuthGuard)
+    @ApiSecurity('bearer')
     @UseInterceptors(FileInterceptor('userImage', {
         storage: memoryStorage(),
         limits: { fileSize: 5 * 1024 * 1024 },
     }))
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({type: ImageUploadDto, description: 'Update user data', required: false})
     update(
         @Param('id',ParseUUIDPipe) id: string,
         @Body() updateData: UpdateUserDto,
@@ -51,12 +57,14 @@ export class UsersController {
 
     @Delete(':id/image')
     @UseGuards(AuthGuard)
+    @ApiSecurity('bearer')
     @HttpCode(HttpStatus.NO_CONTENT)
     async removeImage(@Param('id',ParseUUIDPipe) id: string,@CurrentUser() jwtPayload: JwtPayload) {
         await this.usersService.removeUserImage(id, jwtPayload);
     }
 
     @Delete(':id')
+    @ApiSecurity('bearer')
     @HttpCode(HttpStatus.NO_CONTENT)
     remove(@Param('id',ParseUUIDPipe) id: string,@CurrentUser() jwtPayload: JwtPayload) {
         this.usersService.deleteUser(id, jwtPayload);

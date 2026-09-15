@@ -8,6 +8,7 @@ import { AuthGuard } from '../auth/auth.guard.js';
 import { AuthRoleGuard } from '../auth/auth_role.guard.js';
 import { Roles } from '../auth/decorators/user_role.decorator.js';
 import { UserType } from '../uitils/enums.js';
+import { ApiSecurity } from '@nestjs/swagger';
 
 @Controller('api/reviews')
 export class ReviewsController {
@@ -17,6 +18,7 @@ export class ReviewsController {
 	@Get()
 	@Roles(UserType.ADMIN)
 	@UseGuards(AuthRoleGuard)
+	@ApiSecurity('bearer')
 	getReviews(@Query('page') page?: number, @Query('limit') limit?: number) {
 		return this.reviewsService.getAllReviews(page, limit);
 	}
@@ -29,6 +31,7 @@ export class ReviewsController {
 
 	@Post(':productId')
 	@UseGuards(AuthGuard)
+	@ApiSecurity('bearer')
 	createReview(@Body() reviewData: CreateReviewDto,
 	@Param('productId', ParseIntPipe) productId: number,
 @CurrentUser() jwtPayload:JwtPayload) {
@@ -37,6 +40,7 @@ export class ReviewsController {
 
 	@Patch(':id')
 	@UseGuards(AuthGuard)
+	@ApiSecurity('bearer')
 	updateReview(
 		@Param('id', ParseIntPipe) id: number,
 		@Body() updateData: UpdateReviewDto,
@@ -47,6 +51,7 @@ export class ReviewsController {
 
 	@Delete(':id')
 	@UseGuards(AuthGuard)
+	@ApiSecurity('bearer')
 	deleteReview(@Param('id', ParseIntPipe) id: number, 
 	@CurrentUser() jwtPayload: JwtPayload) {
 		return this.reviewsService.deleteReview(id, jwtPayload.id);

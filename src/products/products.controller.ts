@@ -9,6 +9,8 @@ import type { JwtPayload } from '../uitils/types.js';
 import { CreateProductDto } from './dtos/create_product.dto.js';
 import { UpdateProductDto } from './dtos/update_product.dto.js';
 import { ProductsService } from './products.service.js';
+import { ApiBody, ApiConsumes, ApiSecurity } from '@nestjs/swagger';
+import { FilesUploadDto } from './dtos/filesUpload.dto.js';
 
 @Controller('api/products')
 export class ProductsController {
@@ -34,6 +36,7 @@ export class ProductsController {
     @Post()
     @Roles(UserType.ADMIN)
     @UseGuards (AuthRoleGuard)
+    @ApiSecurity('bearer')
     @UseInterceptors(FilesInterceptor('images', 5, {
         storage: memoryStorage(),
         limits: { fileSize: 5 * 1024 * 1024, files: 5 },
@@ -52,8 +55,11 @@ export class ProductsController {
         return this.productsService.createProduct(productData, images, jwtPayload.id);
     }
    @Patch(':id')
+   @ApiConsumes('multipart/form-data')
+       @ApiBody({type: FilesUploadDto, description: 'Update user data', required: false})
    @Roles(UserType.ADMIN)
     @UseGuards (AuthRoleGuard)
+    @ApiSecurity('bearer')
     @UseInterceptors(FilesInterceptor('images', 5, {
         storage: memoryStorage(),
         limits: { fileSize: 5 * 1024 * 1024, files: 5 },
@@ -71,6 +77,7 @@ export class ProductsController {
     @Delete(':id/images/:imageName')
     @Roles(UserType.ADMIN)
     @UseGuards(AuthRoleGuard)
+    @ApiSecurity('bearer')
     @HttpCode(HttpStatus.NO_CONTENT)
     async deleteProductImage(@Param('id', ParseIntPipe) id: number, @Param('imageName') imageName: string) {
         await this.productsService.deleteProductImage(id, imageName);
@@ -79,6 +86,7 @@ export class ProductsController {
     @Delete(':id')
     @Roles(UserType.ADMIN)
     @UseGuards (AuthRoleGuard)
+    @ApiSecurity('bearer')
     deleteProduct(@Param('id',ParseIntPipe) id: number) {
         return this.productsService.deleteProduct(id);
     }
